@@ -34,10 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/user")
-                //указываем что будет видно ролям Admin и User
                 .access("hasAnyAuthority('ADMIN', 'USER')")
                 .antMatchers("/**")
-                // Все что дальше /** видно только роли Admin
                 .access("hasAnyAuthority('ADMIN')")
                 .and()
                 .formLogin()
@@ -49,7 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
-                //выключаем кроссдоменную секьюрность
                 .and()
                 .csrf()
                 .disable();
