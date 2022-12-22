@@ -10,9 +10,9 @@ public interface RoleService {
 
     List<Role> getAllRoles();
 
-    void add(Role role);
+    void addRole(Role role);
 
-    void update(Role role);
+    void updateRole(Role role);
 
     Role getById(long id);
 

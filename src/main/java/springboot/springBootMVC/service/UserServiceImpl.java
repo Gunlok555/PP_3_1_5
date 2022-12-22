@@ -41,13 +41,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
+    public void updateUser(User user) {
         user.setPassword(bCrypt().encode(user.getPassword()));
         userRepository.save(user);
     }
 
     @Override
-    public void delete(User user) {
+    public void deleteUser(User user) {
         userRepository.delete(user);
     }
 

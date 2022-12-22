@@ -1,29 +1,25 @@
 package springboot.springBootMVC.controller;
 
-import javassist.NotFoundException;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springboot.springBootMVC.dao.UserRepository;
 import springboot.springBootMVC.model.Role;
 import springboot.springBootMVC.model.User;
 import springboot.springBootMVC.service.RoleService;
 import springboot.springBootMVC.service.UserService;
 
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminRestController {
+public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
 
-    public AdminRestController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -54,14 +50,14 @@ public class AdminRestController {
 
     @PutMapping("/update")
     public ResponseEntity<User> editUser(@RequestBody User user) {
-        userService.update(user);
+        userService.updateUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
         User user = userService.getById(id);
-        userService.delete(user);
+        userService.deleteUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

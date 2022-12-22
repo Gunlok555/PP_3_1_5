@@ -12,12 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
 
     @Autowired
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl")
+    public WebSecurityConfig(@Qualifier("userDetailsServiceImpl")
                                       UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
         this.userDetailsService = userDetailsService;
         this.successUserHandler = successUserHandler;
@@ -38,11 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Все что дальше /** видно только роли Admin
                 .access("hasAnyAuthority('ADMIN')")
                 .and()
-                .formLogin() // Spring сам подставит свою логин форму
+                .formLogin()
                 .usernameParameter("email")
-                .successHandler(successUserHandler) // подключаем наш SuccessHandler для перенаправления по ролям
-                // Handler - обработчик успешной аутентификации
-                //.failureHandler(authenticationFailureHandler) //указываем логику обработки при неудачном логине
+                .successHandler(successUserHandler)
+                //.failureHandler(authenticationFailureHandler)
                 .permitAll()
                 .and()
                 .logout()
@@ -50,8 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 //выключаем кроссдоменную секьюрность
                 .and()
-                // Нужен для защиты куки чтобы сайт чужак не получил jsession ID. CSRF токен уточняет что в post запросе
-                // должны быть данные с дополнительным csrf токеном(Чтобы сайт чужак не потделал запрос) Timelife генерит автоматически
                 .csrf()
                 .disable();
     }

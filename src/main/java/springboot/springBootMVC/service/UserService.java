@@ -13,9 +13,9 @@ public interface UserService {
 
     User getById(long id);
 
-    void update(User user);
+    void updateUser(User user);
 
-    void delete(User user);
+    void deleteUser(User user);
 
     User getByName(String userName) throws NotFoundException;
 
